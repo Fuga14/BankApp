@@ -71,7 +71,7 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
@@ -100,7 +100,7 @@ console.log([...arr, ...arr2]);
 
 //Join
 console.log(letters.join('-'));
-*/
+
 
 //The 'at' Method
 const arr = [23, 11, 44];
@@ -112,3 +112,29 @@ console.log(arr[arr.length - 1]);
 console.log(arr.slice(-1)[0]);
 console.log(arr.at(-2));
 console.log('jonas'.at(-1));
+*/
+
+//ForEach method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// for (const movement of movements) {
+// if (movement < 0) {
+//   console.log(`Withdraw: ${Math.abs(movement)}`);
+// } else {
+//   console.log(`Deposit: ${movement}`);
+// }
+// }
+
+movements.forEach(function (move, i, arr) {
+  move > 0
+    ? console.log(`Move ${i + 1} : DEP ${move}`)
+    : console.log(`Move ${i + 1} : WITHDRAW ${Math.abs(move)}`);
+});
+
+console.log('----');
+let index = 1;
+movements.forEach(movement =>
+  movement > 0
+    ? console.log(`Move ${index++} Deposit: ${movement}`)
+    : console.log(`Move ${index++} Withdraw: ${Math.abs(movement)}`)
+);
