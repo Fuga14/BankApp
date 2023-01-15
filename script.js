@@ -74,66 +74,7 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
-// let array = [1, 3, 2];
-// let sortedArray = array.sort();
-// // console.log(sortedArray);
 
-// let array2 = [4, 5, 6];
-// let doubleArray = array2.concat(array).sort();
-// console.log(doubleArray);
-var findmiddleSortedArrays = function (nums1, nums2) {
-  //Sorting array
+let arr = ['a', 'b', 'c', 'd', 'e'];
 
-  //First way
-  // let merged = [...nums1, ...nums2].sort();
-
-  //Second way
-
-  let i1 = 0;
-  let i2 = 0;
-  const len1 = nums1.length;
-  const len2 = nums2.length;
-  const len = len1 + len2;
-
-  if (len === 0) {
-    return null;
-  }
-
-  const merged = [];
-
-  while (i1 < len1 && i2 < len2) {
-    if (nums1[i1] <= nums2[i2]) {
-      merged.push(nums1[i1]);
-      i1++;
-    } else {
-      merged.push(nums2[i2]);
-      i2++;
-    }
-  }
-
-  while (i1 < len1) {
-    merged.push(nums1[i1]);
-    i1++;
-  }
-
-  while (i2 < len2) {
-    merged.push(nums2[i2]);
-    i2++;
-  }
-
-  let left = 0;
-  let right = merged.length - 1;
-  let middle = Math.floor((left + right) / 2);
-
-  if (merged.length % 2 === 0) {
-    console.log((merged[middle] + merged[middle + 1]) / 2);
-    return (merged[middle] + merged[middle + 1]) / 2;
-  } else {
-    console.log(merged[middle]);
-    return merged[middle];
-  }
-};
-
-findmiddleSortedArrays([3], [-2, -1]);
-findmiddleSortedArrays([1, 2], [3, 4]);
-findmiddleSortedArrays([1, 3], [2]);
+console.log(arr.slice(2));
