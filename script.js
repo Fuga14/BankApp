@@ -1,9 +1,5 @@
 'use strict';
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// BANKIST APP
-
 // Data
 const account1 = {
   owner: 'Jonas Schmedtmann',
@@ -61,15 +57,32 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const displayMovements = function (movements) {
+  // Clear all movements and make container clean
+  containerMovements.innerHTML = '';
+  // .textContent = 0;
+
+  // Add all movements on acc that was mentioned in account info in array movements
+  movements.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+      <div class="movements__value">${mov}</div>
+    </div>
+    `;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+    //beforeend will paste movement at the end, so the last move fill be first
+  });
+};
+displayMovements(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
 
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -112,7 +125,7 @@ console.log(arr[arr.length - 1]);
 console.log(arr.slice(-1)[0]);
 console.log(arr.at(-2));
 console.log('jonas'.at(-1));
-*/
+
 
 //ForEach method
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -125,7 +138,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // }
 // }
 
-movements.forEach(function (move, i, arr) {
+movements.forEach(function (move, i) {
   move > 0
     ? console.log(`Move ${i + 1} : DEP ${move}`)
     : console.log(`Move ${i + 1} : WITHDRAW ${Math.abs(move)}`);
@@ -138,3 +151,22 @@ movements.forEach(movement =>
     ? console.log(`Move ${index++} Deposit: ${movement}`)
     : console.log(`Move ${index++} Withdraw: ${Math.abs(movement)}`)
 );
+
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['UAH', 'Ukrainian Hryvna'],
+]);
+
+currencies.forEach(function (value, key, map) {
+  console.log(`${key} - ${value}`);
+});
+
+const uniqueSet = new Set(['USD', 'USD', 'EUR', 'UAH', 'UAH']);
+
+console.log(uniqueSet);
+
+uniqueSet.forEach(function (value, _, map) {
+  console.log(`${value} - ${value}`);
+});
+*/
