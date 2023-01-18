@@ -80,6 +80,23 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, cur) => acc + cur, 0);
+  labelBalance.textContent = `${balance}$`;
+};
+calcDisplayBalance(account1.movements);
+
+const createUserName = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+createUserName(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -169,4 +186,94 @@ console.log(uniqueSet);
 uniqueSet.forEach(function (value, _, map) {
   console.log(`${value} - ${value}`);
 });
+
+
+// Coding challenge 1.
+
+const checkDogs = function (dogsJulia, dogsKate) {
+  let copyDogsJulia = dogsJulia.slice(0, -2).splice(1);
+  const allPets = copyDogsJulia.concat(dogsKate);
+
+  allPets.forEach((pet, i) => {
+    pet >= 3
+      ? console.log(`Dog number ${i + 1} is an adult, and is ${pet} years old`)
+      : console.log(`Dog number ${i + 1} is still a puppy 🐶`);
+  });
+};
+
+checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+console.log('---------------------------');
+checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
+
+//Map method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const eurToUsd = 1.1;
+
+// const movementsUSD = movements.map(function (mov) {
+//   return mov * eurToUsd;
+// });
+
+const movementsUSD = movements.map(mov => mov * eurToUsd);
+
+console.log(movements);
+console.log(movementsUSD);
+
+const movementsUsdFor = [];
+for (const move of movements) {
+  movementsUsdFor.push(move * eurToUsd);
+}
+console.log(movementsUsdFor);
+
+const movementsDescriptions = movements.map(
+  (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrawal'} ${Math.abs(
+      mov
+    )}`
+);
+
+console.log(movementsDescriptions);
+
+
+//Filtrer method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const deposits = movements.filter(mov => mov > 0);
+const withdrawals = movements.filter(mov => mov < 0);
+
+//Reduce method
+//accumulator  -> snowball
+const balance = movements.reduce(function (acc, cur, i, arr) {
+  console.log(`Itteration${i} : ${acc}`);
+  return acc + cur;
+}, 0);
+console.log(balance);
+
+const arrowBalance = movements.reduce((acc, cur) => acc + cur, 0);
+console.log(arrowBalance);
+
+//Maximum value
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) return acc;
+  else return mov;
+}, movements[0]);
+console.log(max);
+
+
+// Coding challenge 2.
+
+const calcAverageHumanAge = function (ages) {
+  const calculation = ages.map(age => (age <= 2 ? age * 2 : age * 4 + 16));
+  console.log(calculation);
+
+  const excluding = calculation.filter(age => age >= 18);
+  console.log(excluding);
+
+  const averageAge =
+    excluding.reduce((acc, age) => acc + age, 0) / excluding.length;
+  console.log(averageAge);
+};
+
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 */
