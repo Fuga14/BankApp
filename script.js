@@ -2,7 +2,7 @@
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Vladyslav Pereder',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
@@ -70,7 +70,7 @@ const displayMovements = function (movements) {
       <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-      <div class="movements__value">${mov}</div>
+      <div class="movements__value">${mov}$</div>
     </div>
     `;
 
@@ -78,13 +78,30 @@ const displayMovements = function (movements) {
     //beforeend will paste movement at the end, so the last move fill be first
   });
 };
-displayMovements(account1.movements);
 
 const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((acc, cur) => acc + cur, 0);
   labelBalance.textContent = `${balance}$`;
 };
-calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}$`;
+
+  const outs = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc - mov, 0);
+  labelSumOut.textContent = `${outs}$`;
+
+  const interests = movements
+    .filter(mov => mov > 0)
+    .map(mov => (mov * 1.2) / 100)
+    .filter(mov => mov >= 1)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumInterest.textContent = `${interests}$`;
+};
 
 const createUserName = function (accs) {
   accs.forEach(function (acc) {
@@ -97,6 +114,35 @@ const createUserName = function (accs) {
 };
 createUserName(accounts);
 
+//Event handler
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  //Prevent form from submitting
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //To display UI and welcome message
+    labelWelcome.textContent = `Welcome back ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    // Display movements
+    displayMovements(currentAccount.movements);
+
+    // Display balance
+    calcDisplayBalance(currentAccount.movements);
+
+    // Display summary
+    calcDisplaySummary(currentAccount.movements);
+  }
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -276,4 +322,58 @@ const calcAverageHumanAge = function (ages) {
 
 calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
 calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
+
+//Chaining methods
+const eurToUsd = 1.1;
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+//PIPELINE
+const totalDeposit = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov);
+
+console.log(totalDeposit);
+
+// Coding challenge 2.
+
+const calcAverageHumanAge = function (ages) {
+  const calculation = ages.map(age => (age <= 2 ? age * 2 : age * 4 + 16));
+  console.log(calculation);
+
+  const excluding = calculation.filter(age => age >= 18);
+  console.log(excluding);
+
+  const averageAge =
+    excluding.reduce((acc, age) => acc + age, 0) / excluding.length;
+  console.log(averageAge);
+};
+
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
+
+//Coding challenge 3.
+
+const calcAverageHumanAge = data => {
+  const averageAge = data
+    .map(age => (age <= 2 ? age * 2 : age * 4 + 16))
+    .filter(age => age >= 18)
+    .reduce((storage, age, i, arr) => storage + age / arr.length, 0);
+  return averageAge;
+};
+
+console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+
+
+//Find method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(firstWithdrawal);
+console.log(accounts);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
 */
